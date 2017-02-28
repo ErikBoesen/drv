@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from shutil import copy, move
+from shutil import copy, move, copytree
 import re
 import argparse
 import os
@@ -14,13 +14,17 @@ parser.add_argument('--cp', dest='cp', action='store_const',
 
 args = parser.parse_args()
 
-#clean_path = re.compile(r'^[~/]+')
-
-for i in range(0, len(args.files)):
-    print('Uploading file %s...' % (os.getcwd() + '/' + args.files[i]))
+for i in args.files:
+    print('Uploading file %s... ' % (os.getcwd() + '/' + i), end='')
+    src = os.getcwd() + '/' + i
+    dst = os.path.expanduser('~') + '/Google Drive/' + i.split('/')[-1]
     if args.cp:
-        copy(os.getcwd() + '/' + args.files[i], os.path.expanduser('~') + '/Google Drive')
+        if os.path.isdir(src):
+            copytree(src, dst)
+        else:
+            copy(src, dst)
     else:
-        pass  # For now
+        move(src, dst)
+    print('done!')
 
-# TODO: Rewrite as map
+# TODO: Rewrite as map?
