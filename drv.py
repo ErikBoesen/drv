@@ -6,7 +6,7 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser(description='Upload files to Google Drive.')
-parser.add_argument('files', metavar='N', type=str, nargs='+',
+parser.add_argument('files', type=str, nargs='+',
                     help='files/folders to upload')
 parser.add_argument('--cp', dest='cp', action='store_const',
                     const=True, default=False,
